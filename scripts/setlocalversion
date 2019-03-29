@@ -44,7 +44,8 @@ scm_version()
 
 	# Check for git and a git repo.
 	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
-	   head=$(git rev-parse --verify HEAD 2>/dev/null); then
+
+	   head=`git rev-parse --verify --short=8 HEAD 2>/dev/null`; then
 
 		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
 		# it, because this version is defined in the top level Makefile.
@@ -89,12 +90,6 @@ scm_version()
 		# it fails. Note that git-diff-index does not refresh the
 		# index, so it may give misleading results. See
 		# git-update-index(1), git-diff-index(1), and git-status(1).
-		if {
-			git --no-optional-locks status -uno --porcelain 2>/dev/null ||
-			git diff-index --name-only HEAD
-		} | grep -qvE '^(.. )?scripts/package'; then
-			printf '%s' -dirty
-		fi
 
 		# All done with git
 		return
@@ -113,12 +108,6 @@ scm_version()
 				printf '%s%s' -hg "$id"
 			fi
 		fi
-
-		# Are there uncommitted changes?
-		# These are represented by + after the changeset id.
-		case "$hgid" in
-			*+|*+\ *) printf '%s' -dirty ;;
-		esac
 
 		# All done with mercurial
 		return
