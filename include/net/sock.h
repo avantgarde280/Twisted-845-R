@@ -386,6 +386,8 @@ struct sock {
 	atomic_t		sk_omem_alloc;
 	int			sk_sndbuf;
 	struct sk_buff_head	sk_write_queue;
+        u32			sk_pacing_status; /* see enum sk_pacing */
+
 
 	/*
 	 * Because of non atomicity rules, all
