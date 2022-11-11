@@ -25,7 +25,7 @@ jobs:
         NAME: TwistedKernelV2
       with:
         arch: arm64
-        compiler: proton-clang/master
+        compiler: clang/11
         defconfig: twisted_mix2s_defconfig
         image: Image.gz-dtb
 
